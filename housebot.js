@@ -34,7 +34,7 @@ var bot = new irc.Client(config.server, config.username, {
 
 bot.addListener('join', function(channel, user) {
   if (user === config.username) {
-    bot.say(channel, config.username+' has arrived!');
+    bot.say(channel, '/me has arrived!');
   }
 });
 
