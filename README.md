@@ -25,7 +25,7 @@ Housebot commands all start with a bang (`!`). They are:
 
 You should have Node.js installed. Then in this directory,
 
-  npm install
+    npm install
 
 should take care of the rest.
 
@@ -37,7 +37,7 @@ username near the top of `housebot.js` to use whatever Twitch account you're usi
 
 After that, you should be able to
 
-  node housebot.js
+    node housebot.js
 
 assuming your network is set up the exact same way that mine is (it isn't). (Again, my focus now is going to be on
 generalization. Just open sourcing this now for posterity.)
