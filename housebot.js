@@ -3,6 +3,13 @@ var irc = require('irc');
 var ozw = require('openzwave');
 var instruction = require('./instruction.js');
 
+if (!fs.existsSync('config.js')) {
+  console.log('You need to copy config.default.js -> config.js and fill it out!');
+  process.exit();
+}
+
+var config = require('./config.js');
+
 // commands
 var vote     = require('./commands/vote.js');
 var quote    = require('./commands/quote.js');
@@ -10,21 +17,9 @@ var addquote = require('./commands/addquote.js');
 
 var zwave = new ozw('/dev/cu.SLAB_USBtoUART');
 
-var channelNicks = {
-  test_deleted_user: []
-}
-
-var config = {
-  channels: ['#test_deleted_user'],
-  server: 'irc.twitch.tv',
-  username: 'housebot',
-  votes: new Array(),
-  waitBetweenMessages: 2
-};
-
 var bot = new irc.Client(config.server, config.username, {
   userName: config.username,
-  password: fs.readFileSync('oauth', { encoding: 'utf8' }),
+  password: config.password,
   channels: config.channels,
   floodProtection: true,
   floodProtectionDelay: config.waitBetweenMessages
@@ -34,10 +29,6 @@ bot.addListener('join', function(channel, user) {
   if (user === config.username) {
     bot.say(channel, '/me has arrived!');
   }
-});
-
-bot.addListener('names', function(channel, names) {
-  channelNicks[channel] = names;
 });
 
 bot.addListener('message#', function(user, channel, text, message) {
@@ -50,7 +41,7 @@ bot.addListener('message#', function(user, channel, text, message) {
     if (instr.command === config.username || instr.command === 'help' || instr.command === 'commands') {
       bot.say(channel, 'Commands: !vote, !quote, !addquote, !lights');
     } else if (vote(instr.argv).valid) {
-      vote(instr.argv).run(bot, channel, channelNicks, devices);
+      vote(instr.argv).run(bot, channel, [], devices);
     } else if (quote(instr.argv).valid) {
       quote(instr.argv).run(bot, channel);
     } else if (addquote(instr.argv).valid) {
@@ -80,9 +71,9 @@ var nameOf = function(command) {
   return "unknown setting ("+command+")";
 };
 
-zwave.on('connected',     function()       { process.stdout.write("Initializing driver..."); });
-zwave.on('driver ready',  function(homeid) { console.log("done."); });
-zwave.on('driver failed', function()       { console.log('failed. Is the receiver plugged in?'); /*process.exit(1);*/ });
+zwave.on('connected',     function()       { process.stdout.write('Starting Z-Wave driver...'); });
+zwave.on('driver ready',  function(homeid) { console.log('done.'); });
+zwave.on('driver failed', function()       { console.log('failed. Is the hub connected? (I\'ll continue to run in IRC-only mode.)'); });
 
 zwave.on('node added',    function(id) {
   device = Device();
