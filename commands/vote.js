@@ -1,23 +1,34 @@
 var votesRequired = 8;
+var strobeCount = 10;
+var numFlips = 0;
 
 var polls = {
   lights: {
     on:  0,
-    off: 0
+    off: 0,
+    strobe: 0
   }
 }
 
 var triggers = {
   lights: {
     on: function(bot, channel, devices) {
-      // turn on
-      bot.say(channel, 'Lights turning on!');
+      numFlips++;
+      bot.say(channel, 'Lights turning on! (flip #'+numFlips+)');
       devices[3].turn('on');
     },
     off: function(bot, channel, devices) {
-      // turn off
-      bot.say(channel, 'Lights turning off!');
+      numFlips++;
+      bot.say(channel, 'Lights turning off! (flip #'+numFlips+')');
       devices[3].turn('off');
+    },
+    strobe: function(bot, channel, devices) {
+      numFlips += strobeCount * 2;
+      bot.say(channel, 'Lights on strobe! Break out the glowsticks!');
+      for (var i = 0; i < strobeCount; i++) {
+        devices[3].turn('off');
+        devices[3].turn('on');
+      }
     }
   }
 }
