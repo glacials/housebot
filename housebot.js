@@ -4,7 +4,9 @@ var ozw = require('openzwave');
 var instruction = require('./instruction.js');
 
 // commands
-var vote = require('./commands/vote.js');
+var vote     = require('./commands/vote.js');
+var quote    = require('./commands/quote.js');
+var addquote = require('./commands/addquote.js');
 
 var zwave = new ozw('/dev/cu.SLAB_USBtoUART');
 
@@ -13,16 +15,12 @@ var channelNicks = {
 }
 
 var config = {
-  channels: ['#glacials'],
+  channels: ['#test_deleted_user'],
   server: 'irc.twitch.tv',
   username: 'housebot',
   votes: new Array(),
   waitBetweenMessages: 2
 };
-
-config.votes['lights'] = Array();
-config.votes['lights']['on'] = 0;
-config.votes['lights']['off'] = 0;
 
 var bot = new irc.Client(config.server, config.username, {
   userName: config.username,
@@ -45,11 +43,19 @@ bot.addListener('names', function(channel, names) {
 bot.addListener('message#', function(user, channel, text, message) {
   text = text.trim();
   if (text[0] === '!') {
-    instr = instruction(text);
-    if (instr.command === config.username) {
-      bot.say(channel, "Hi, I'm "+config.username+"! Try `!vote`");
+    if (text.split(' ')[0] === '!lights') { // Allow `!lights` as an alias of `!vote lights`
+      text = '!vote '+text.substring(1, text.length);
     }
-    vote(instr.argv, bot, channel, channelNicks, devices).valid;
+    instr = instruction(text);
+    if (instr.command === config.username || instr.command === 'help' || instr.command === 'commands') {
+      bot.say(channel, 'Commands: !vote, !quote, !addquote, !lights');
+    } else if (vote(instr.argv).valid) {
+      vote(instr.argv).run(bot, channel, channelNicks, devices);
+    } else if (quote(instr.argv).valid) {
+      quote(instr.argv).run(bot, channel);
+    } else if (addquote(instr.argv).valid) {
+      addquote(instr.argv).run(bot, channel);
+    }
   }
 });
 
