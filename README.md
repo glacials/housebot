@@ -8,7 +8,8 @@ Housebot is an IRC bot that controls Z-Wave devices, like outlets or lights, wit
 controls binary switch devices, not multi-level devices like faders. To use his home automation abilities you will need
 a Z-Wave hub-like device hooked up to whatever machine you run him on. I use the Aeon Z-Stick Series 2.
 
-Housebot uses [node-openzwave][1] and Node.js.
+Housebot uses [node-openzwave][1] and [Node.js][2]. He is licensed under the [MIT license][3], aka the "do whatever you
+want with me" license. <3
 
 ## Chat usage
 
@@ -40,3 +41,4 @@ on generalizing this part so that this isn't necessary.
 
 [1]: https://github.com/jperkin/node-openzwave
 [2]: http://nodejs.org/
+[3]: http://opensource.org/licenses/MIT
