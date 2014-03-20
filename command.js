@@ -25,7 +25,7 @@ module.exports = function(argv) {
         }
       });
       if (!success && options.verbose) {
-        console.log("Unrecognized command.");
+        options.bot.say(options.channel, "Unrecognized command.");
       }
     }
   };
