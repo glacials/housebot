@@ -1,7 +1,6 @@
 var fs = require('fs');
 var irc = require('irc');
 var ozw = require('openzwave');
-var instruction = require('./instruction.js');
 
 if (!fs.existsSync('config.js')) {
   console.log('You need to copy config.default.js -> config.js and fill it out!');
@@ -9,11 +8,7 @@ if (!fs.existsSync('config.js')) {
 }
 
 var config = require('./config.js');
-
-// commands
-var vote     = require('./commands/vote.js');
-var quote    = require('./commands/quote.js');
-var addquote = require('./commands/addquote.js');
+var command = require('./command.js');
 
 var zwave = new ozw('/dev/cu.SLAB_USBtoUART');
 
@@ -21,8 +16,8 @@ var bot = new irc.Client(config.server, config.username, {
   userName: config.username,
   password: config.password,
   channels: config.channels,
-  floodProtection: true,
-  floodProtectionDelay: config.waitBetweenMessages
+  floodProtection: config.spamDelay !== 0,
+  floodProtectionDelay: config.spamDelay
 });
 
 bot.addListener('join', function(channel, user) {
@@ -34,25 +29,22 @@ bot.addListener('join', function(channel, user) {
 bot.addListener('message#', function(user, channel, text, message) {
   text = text.trim();
   if (text[0] === '!') {
+    text = text.slice(1);
     if (text.split(' ')[0] === '!lights') { // Allow `!lights` as an alias of `!vote lights`
       text = '!vote '+text.substring(1, text.length);
     }
-    instr = instruction(text);
-    if (instr.command === config.username || instr.command === 'help' || instr.command === 'commands') {
+    if (text.split(' ')[0] === config.username || text.split(' ')[0] === 'help' || text.split(' ')[0] === 'commands') {
       bot.say(channel, 'Commands: !vote, !quote, !addquote, !lights');
-    } else if (vote(instr.argv).valid) {
-      vote(instr.argv).run(bot, channel, [], devices);
-    } else if (quote(instr.argv).valid) {
-      quote(instr.argv).run(bot, channel);
-    } else if (addquote(instr.argv).valid) {
-      addquote(instr.argv).run(bot, channel);
+    } else {
+      command(text.split(' '), { devices: devices }).attempt(bot, channel);
     }
   }
 });
 
 var devices = [];
 var Device = function() {
-  return { turn: function(value) {
+  return {
+    turn: function(value) {
       if (value === 'on') {
         zwave.switchOn(device.id);
       } else if (value === 'off') {
@@ -112,3 +104,10 @@ zwave.on('value added', function(deviceId, command, setting) {
 });
 
 zwave.connect();
+
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', function (text) {
+  command(text.trim().split(' ')).attempt({ verbose: true, devices: devices });
+  process.stdout.write('> ');
+});

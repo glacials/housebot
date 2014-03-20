@@ -1,15 +1,16 @@
 var fs = require('fs');
 
-module.exports = function(args, bot, channel, nicks, devices) {
+module.exports = function(argv, options) {
+  options = options || {};
   return {
     command: 'quote',
-    valid: args[0] === 'quote' && args.length === 1,
-    run: function(bot, channel) {
-      var command = args.shift();
-      var quote   = args.join(' ');
+    valid: argv[0] === 'quote' && argv.length === 1,
+    run: function() {
+      var command = argv.shift();
+      var quote   = argv.join(' ');
       quotes = fs.readFileSync('quotes.txt').toString().split('\n');
       quotes.pop(); // Get that last newline out of there
-      bot.say(channel, quotes[Math.floor(Math.random() * quotes.length)]);
+      options.bot.say(options.channel, quotes[Math.floor(Math.random() * quotes.length)]);
     }
   };
 }

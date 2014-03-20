@@ -1,16 +1,15 @@
 var fs = require('fs');
 
-module.exports = function(args, bot, channel, nicks, devices) {
+module.exports = function(argv, options) {
   return {
     command: 'addquote',
-    valid: args[0] === 'addquote' && args.length >= 1,
-    run: function(bot, channel) {
-      var command = args.shift();
-      var quote   = args.join(' ');
-      fs.appendFile('submitted-quotes.txt', quote+'\n', function(err) {
-        console.log(err);
+    valid: argv[0] === 'addquote' && argv.length >= 1,
+    run: function() {
+      var quote = argv.slice(1).join(' ');
+      fs.appendFile('submitted-quotes.txt', quote+'\n', function(error) {
+        if (error) throw error;
+        options.bot.say(options.channel, 'Your quote has been added for review!');
       });
-      bot.say(channel, 'Your quote has been added for review!');
     }
   };
 }
