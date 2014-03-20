@@ -9,14 +9,14 @@ fs.readdirSync('./commands').forEach(function(file) {
 module.exports = function(argv) {
   return {
     argv: argv,
-    /* options can currently only contain:
+    /* options can contain:
+     *   devices (array): A list of devices the command may (or may not) need to control.
+     *   isOwner (boolean): True if `user` owns the hardware in `devices`; false otherwise.
+     *   user (string): The user from whom this command came.
      *   verbose (boolean): If true, complain if we can't process the command
      */
     attempt: function(options) {
       options = options || {};
-      if (!options.bot) {
-        options.bot = { say: function(channel, text) { console.log(text); } };
-      }
       var success = false;
       commands.forEach(function(command) {
         if (command(argv).valid) {

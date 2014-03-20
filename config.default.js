@@ -28,6 +28,10 @@ module.exports = function() {
       '#you-get-the-picture'
     ],
 
+    // Who owns the devices being controlled?
+    //   This person gets exclusive access to the `force` command.
+    owner: 'your-username-here',
+
     // How many seconds should I wait between sending messages?
     //   The sweet spot depends on the server, but for Twitch this should be nonzero to avoid getting dropped messages.
     spamDelay: 2,

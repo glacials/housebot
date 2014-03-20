@@ -38,7 +38,13 @@ bot.addListener('message#', function(user, channel, text, message) {
     if (text.split(' ')[0] === config.username || text.split(' ')[0] === 'help' || text.split(' ')[0] === 'commands') {
       bot.say(channel, 'Commands: !vote, !quote, !addquote, !lights');
     } else {
-      command(text.split(' ')).attempt({ bot: bot, channel: channel, devices: devices });
+      command(text.split(' ')).attempt({
+        bot:     bot,
+        channel: channel,
+        devices: devices,
+        user:    user,
+        isOwner: user === config.owner
+      });
     }
   }
 });
@@ -66,8 +72,8 @@ var nameOf = function(command) {
 };
 
 zwave.on('connected',     function()       { process.stdout.write('Starting Z-Wave driver...'); });
-zwave.on('driver ready',  function(homeid) { console.log('done.'); });
-zwave.on('driver failed', function()       { console.log('failed. Is the hub connected? (I\'ll continue to run in IRC-only mode.)'); });
+zwave.on('driver ready',  function(homeid) { console.log('done.'); process.stdout.write('> '); });
+zwave.on('driver failed', function()       { console.log('failed. Is the hub connected? (I\'ll continue to run in IRC-only mode.)'); process.stdout.write('> '); });
 
 zwave.on('node added',    function(id) {
   device = Device();
@@ -110,6 +116,13 @@ zwave.connect();
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', function (text) {
-  command(text.trim().split(' ')).attempt({ verbose: true, devices: devices });
+  command(text.trim().split(' ')).attempt({
+    bot: {
+      say: function(channel, text) { console.log(text); }
+    },
+    devices: devices,
+    isOwner: true,
+    verbose: true
+  });
   process.stdout.write('> ');
 });

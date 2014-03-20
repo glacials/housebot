@@ -38,9 +38,9 @@ module.exports = function(argv, options) {
   return {
     command: 'vote',
     valid: (argv[0] === 'vote' || argv[0] === 'lights') &&
-           (argv.length === 1) ||
+           ((argv.length === 1) ||
            (argv.length === 2 && argv[1] in polls) ||
-           (argv.length === 3 && argv[1] in polls && argv[2] in polls[argv[1]]),
+           (argv.length === 3 && argv[1] in polls && argv[2] in polls[argv[1]])),
     run: function() {
       if (!options.devices[3]) {
         options.bot.say(options.channel, "I'm not hooked up to any lights right now!");
