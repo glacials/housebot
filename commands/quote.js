@@ -1,4 +1,14 @@
 var fs = require('fs');
+fs.exists('quotes.txt', function (exists) {
+  if (!exists) {
+    fs.writeFile('quotes.txt', 'No quotes yet!\n');
+  }
+});
+fs.exists('submitted-quotes.txt', function (exists) {
+  if (!exists) {
+    fs.writeFile('submitted-quotes.txt', '');
+  }
+});
 
 module.exports = function(argv, options) {
   options = options || {};
