@@ -17,7 +17,9 @@ var bot = new irc.Client(config.server, config.username, {
   password: config.password,
   channels: config.channels,
   floodProtection: config.spamDelay !== 0,
-  floodProtectionDelay: config.spamDelay
+  floodProtectionDelay: config.spamDelay,
+  showErrors: config.debug,
+  debug: config.debug
 });
 
 bot.addListener('join', function(channel, user) {
