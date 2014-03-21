@@ -7,7 +7,7 @@ if (!fs.existsSync('config.js')) {
   process.exit();
 }
 
-var config = require('./config.js');
+var config = require('./config.js')();
 var command = require('./command.js');
 
 var zwave = new ozw('/dev/cu.SLAB_USBtoUART');
