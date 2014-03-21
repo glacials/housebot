@@ -14,6 +14,7 @@ var zwave = new ozw('/dev/cu.SLAB_USBtoUART');
 
 var bot = new irc.Client(config.server, config.username, {
   userName: config.username,
+  realName: config.username,
   password: config.password,
   channels: config.channels,
   floodProtection: config.spamDelay !== 0,
