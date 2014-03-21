@@ -23,4 +23,4 @@ module.exports = function(argv, options) {
       options.bot.say(options.channel, quotes[Math.floor(Math.random() * quotes.length)]);
     }
   };
-}
+};

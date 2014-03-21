@@ -59,8 +59,8 @@ var Device = function() {
         zwave.switchOff(device.id);
       }
     }
-  }
-}
+  };
+};
 devices.push(null);
 
 var nameOf = function(command) {
@@ -103,7 +103,7 @@ zwave.on('value added', function(deviceId, command, setting) {
   device = devices[deviceId];
   if (setting.name === 'binary switch') {
     device.setting = setting;
-    console.log("Switch setting added!")
+    console.log("Switch setting added!");
     console.log("  Device:  "+device.id);
     console.log("  Setting: "+device.setting.name+" (currently "+device.setting.value+")");
   } else if (setting.name === 'version') {

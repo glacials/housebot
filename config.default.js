@@ -39,5 +39,5 @@ module.exports = function() {
     // Should I tell node-irc to display errors and debug messages?
     //   Turning this on can be helpful if you're not able to connect to IRC and you don't know why.
     debug: false
-  }
-}
+  };
+};

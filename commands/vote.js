@@ -8,7 +8,7 @@ var polls = {
     off: 0,
     strobe: 0
   }
-}
+};
 
 var triggers = {
   lights: {
@@ -26,12 +26,12 @@ var triggers = {
       numFlips += strobeCount * 2;
       bot.say(channel, 'Lights on strobe! Break out the glowsticks!');
       for (var i = 0; i < strobeCount; i++) {
-        setTimeout(function() { devices[3].turn('off') }, i * 750);
-        setTimeout(function() { devices[3].turn('on') },  i * 750 + 375);
+        setTimeout(function() { devices[3].turn('off'); }, i * 750);
+        setTimeout(function() { devices[3].turn('on'); },  i * 750 + 375);
       }
     }
   }
-}
+};
 
 module.exports = function(argv, options) {
   options = options || {};
@@ -53,7 +53,7 @@ module.exports = function(argv, options) {
       if (argv.length === 1 && command === 'vote') {
         options.bot.say(options.channel, 'open polls → '+Object.keys(polls).join(' '));
       } else if (argv.length === 2 && poll) {
-        response = 'candidates for '+argv[1]+' → '
+        response = 'candidates for '+argv[1]+' → ';
         Object.keys(poll).forEach(function(option, numVotes, options) {
           response += option+' ';
         });
@@ -72,4 +72,4 @@ module.exports = function(argv, options) {
       var votes = 0;
     }
   };
-}
+};

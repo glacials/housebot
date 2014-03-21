@@ -7,7 +7,7 @@ var args = {
     bot.say(channel, 'Forcing lights off.');
     devices[3].turn('off');
   }
-}
+};
 
 module.exports = function(argv, options) {
   options = options || {};
@@ -29,4 +29,4 @@ module.exports = function(argv, options) {
       }
     }
   };
-}
+};
