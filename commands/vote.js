@@ -37,36 +37,36 @@ module.exports = function(argv, options) {
   options = options || {};
   return {
     command: 'vote',
-    valid: (argv[0] === 'vote' || argv[0] === 'lights') &&
-           ((argv.length === 1) ||
-           (argv.length === 2 && argv[1] in polls) ||
-           (argv.length === 3 && argv[1] in polls && argv[2] in polls[argv[1]])),
+    valid: (argv.length === 1 && argv[0] === 'vote') ||
+           (argv.length === 2 && argv[0] === 'vote' && argv[1] in polls) ||
+           (argv.length === 3 && argv[0] === 'vote' && argv[1] in polls && argv[2] in polls[argv[1]]) ||
+           (argv.length === 1 && argv[0] in polls) ||
+           (argv.length === 2 && argv[0] in polls && argv[1] in polls[argv[0]]),
     run: function() {
       if (!options.devices[3]) {
         options.bot.say(options.channel, "I'm not hooked up to any lights right now!");
         return;
       }
-      var command   = argv[0];
-      var pollName  = argv[1];
-      var poll      = polls[pollName];
-      var candidate = argv[2];
-      if (argv.length === 1 && command === 'vote') {
+      if (argv[0] !== 'vote') {
+        argv.unshift('vote');
+      }
+      if (argv.length === 1) {
         options.bot.say(options.channel, 'open polls → '+Object.keys(polls).join(' '));
-      } else if (argv.length === 2 && poll) {
+      } else if (argv.length === 2) {
         response = 'candidates for '+argv[1]+' → ';
-        Object.keys(poll).forEach(function(option, numVotes, options) {
-          response += option+' ';
+        Object.keys(polls[argv[1]]).forEach(function(candidate, numVotes, options) {
+          response += candidate+' ';
         });
         options.bot.say(options.channel, response);
-      } else if (argv.length === 3 && poll && candidate in poll) {
-        poll[candidate]++;
-        if (poll[candidate] >= votesRequired) {
-          triggers[pollName][candidate](options.bot, options.channel, options.devices);
-          Object.keys(poll).forEach(function(option, numVotes, options) {
-            poll[option] = 0;
+      } else if (argv.length === 3) {
+        poll[argv[2]]++;
+        if (polls[argv[1]][argv[2]] >= votesRequired) {
+          triggers[argv[1]][argv[2]](options.bot, options.channel, options.devices);
+          Object.keys(polls[argv[1]]).forEach(function(candidate, numVotes, options) {
+            polls[argv[1]][candidate] = 0;
           });
         } else {
-          options.bot.say(options.channel, pollName+' '+candidate+' → now '+poll[candidate]+' (need '+(votesRequired - poll[candidate])+' more)');
+          options.bot.say(options.channel, pollName+' '+argv[2]+' → now '+polls[argv[1]][argv[2]]+' (need '+(votesRequired - polls[argv[1]][argv[2]])+' more)');
         }
       }
       var votes = 0;
