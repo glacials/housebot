@@ -26,8 +26,8 @@ var triggers = {
       numFlips += strobeCount * 2;
       bot.say(channel, 'Lights on strobe! Break out the glowsticks!');
       for (var i = 0; i < strobeCount; i++) {
-        setTimeout(function() { devices[3].turn('off'); }, i * 750);
-        setTimeout(function() { devices[3].turn('on'); },  i * 750 + 375);
+        setTimeout(devices[3].turn_off, i * 750);
+        setTimeout(devices[3].turn_on,  i * 750 + 375);
       }
     }
   }

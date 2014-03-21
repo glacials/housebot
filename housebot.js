@@ -52,12 +52,11 @@ bot.addListener('message#', function(user, channel, text, message) {
 var devices = [];
 var Device = function() {
   return {
-    turn: function(value) {
-      if (value === 'on') {
-        zwave.switchOn(device.id);
-      } else if (value === 'off') {
-        zwave.switchOff(device.id);
-      }
+    turn_on: function() {
+      zwave.switchOn(device.id);
+    },
+    turn_off: function() {
+      zwave.switchOff(device.id);
     }
   };
 };
