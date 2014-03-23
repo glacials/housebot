@@ -37,7 +37,7 @@ bot.addListener('message#', function(user, channel, text, message) {
       text = '!vote '+text.substring(1, text.length);
     }
     if (text.split(' ')[0] === config.username || text.split(' ')[0] === 'help' || text.split(' ')[0] === 'commands') {
-      bot.say(channel, 'Commands: !vote, !quote, !addquote, !lights');
+      bot.say(channel, 'Commands: !vote, !quote, !addquote, !lights, !sms');
     } else {
       command(text.split(' ')).attempt({
         bot:     bot,
