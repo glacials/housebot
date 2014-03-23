@@ -15,12 +15,12 @@ var triggers = {
     on: function(bot, channel, devices) {
       numFlips++;
       bot.say(channel, 'Lights turning on! (flip #'+numFlips+')');
-      devices[3].turn('on');
+      devices[3].turn_on();
     },
     off: function(bot, channel, devices) {
       numFlips++;
       bot.say(channel, 'Lights turning off! (flip #'+numFlips+')');
-      devices[3].turn('off');
+      devices[3].turn_off();
     },
     strobe: function(bot, channel, devices) {
       numFlips += strobeCount * 2;
@@ -59,14 +59,14 @@ module.exports = function(argv, options) {
         });
         options.bot.say(options.channel, response);
       } else if (argv.length === 3) {
-        poll[argv[2]]++;
+        polls[argv[1]][argv[2]]++;
         if (polls[argv[1]][argv[2]] >= votesRequired) {
           triggers[argv[1]][argv[2]](options.bot, options.channel, options.devices);
           Object.keys(polls[argv[1]]).forEach(function(candidate, numVotes, options) {
             polls[argv[1]][candidate] = 0;
           });
         } else {
-          options.bot.say(options.channel, pollName+' '+argv[2]+' → now '+polls[argv[1]][argv[2]]+' (need '+(votesRequired - polls[argv[1]][argv[2]])+' more)');
+          options.bot.say(options.channel, argv[1]+' '+argv[2]+' → now '+polls[argv[1]][argv[2]]+' (need '+(votesRequired - polls[argv[1]][argv[2]])+' more)');
         }
       }
       var votes = 0;

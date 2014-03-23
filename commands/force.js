@@ -1,11 +1,11 @@
 var args = {
   'lights on': function(bot, channel, devices) {
     bot.say(channel, 'Forcing lights on.');
-    devices[3].turn('on');
+    devices[3].turn_on();
   },
   'lights off': function(bot, channel, devices) {
     bot.say(channel, 'Forcing lights off.');
-    devices[3].turn('off');
+    devices[3].turn_off();
   }
 };
 
