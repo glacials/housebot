@@ -4,7 +4,8 @@
   "author": "Ben Carlsson <qhiiyr@gmail.com>",
   "dependencies": {
     "openzwave": "0.0.32",
-    "irc": "0.3.6"
+    "irc": "0.3.6",
+    "express": "3.x"
   },
   "repository": {
     "type": "git",

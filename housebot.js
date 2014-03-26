@@ -1,6 +1,7 @@
 var fs = require('fs');
 var irc = require('irc');
 var ozw = require('openzwave');
+var express = require('express');
 
 if (!fs.existsSync('config.js')) {
   console.log('You need to copy config.default.js -> config.js and fill it out!');
@@ -63,7 +64,7 @@ var Device = function() {
 };
 devices.push(null);
 
-var nameOf = function(command) {
+var name_of = function(command) {
   if (command ===  32) return "meter";
   if (command ===  37) return "binary switch";
   if (command ===  38) return "multilevel switch";
@@ -99,7 +100,7 @@ zwave.on('node ready', function(id, info) {
 });
 
 zwave.on('value added', function(deviceId, command, setting) {
-  setting.name = nameOf(command);
+  setting.name = name_of(command);
   device = devices[deviceId];
   if (setting.name === 'binary switch') {
     device.setting = setting;
@@ -126,3 +127,6 @@ process.stdin.on('data', function (text) {
   });
   process.stdout.write('> ');
 });
+
+var web = require('./web/app.js');
+web(devices);
