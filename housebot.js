@@ -39,8 +39,10 @@ bot.addListener('message#', function(user, channel, text, message) {
         bot:     bot,
         channel: channel,
         devices: devices,
-        user:    user,
-        isOwner: user === config.owner
+        user: {
+          name:     user,
+          is_owner: user === config.owner
+        }
       });
     }
   }
@@ -116,8 +118,12 @@ process.stdin.on('data', function (text) {
     bot: {
       say: function(channel, text) { console.log(text); }
     },
+    user: {
+      name: null,
+      is_owner: true
+    },
+    channel: config.username,
     devices: devices,
-    isOwner: true,
     verbose: true
   });
   process.stdout.write('> ');

@@ -15,7 +15,7 @@ module.exports = function(argv, options) {
     command: 'force',
     valid: argv[0] === 'force',
     run: function() {
-      if (!options.isOwner) {
+      if (!options.user.is_owner) {
         options.bot.say(options.channel, 'Only the device owner can force actions!');
         return;
       }
