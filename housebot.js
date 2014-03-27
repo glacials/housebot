@@ -18,7 +18,7 @@ var bot = new irc.Client(config.server, config.username, {
   userName: config.username,
   realName: config.username,
   password: config.password,
-  channels: config.channels.concat(db.get('channels') || []),
+  channels: (db.get('channels') || []).concat('#'+config.username),
   floodProtection: config.spamDelay !== 0,
   floodProtectionDelay: config.spamDelay,
   showErrors: config.debug,
