@@ -7,29 +7,28 @@ module.exports = function() {
     //   [1]: http://www.silabs.com/products/mcu/pages/usbtouartbridgevcpdrivers.aspx
     zwaveHubPath: '/dev/cu.SLAB_USBtoUART',
 
-    // What IRC server should I connect to?
-    //   For Twitch, this should be 'irc.twitch.tv'.
-    server: 'irc.twitch.tv',
-
-    // What username should I use for IRC?
-    //   For Twitch, you will need to own this account so you can produce an OAuth token (see below).
+    // What Twitch user am I signing in as?
+    // You will need to own this account so you can produce an OAuth token (see below).
     username: 'housebot',
 
-    // What password should I log into the server with?
-    //   If you don't need one, this should be an empty string.
-    //   For Twitch, this should be the above account's OAuth token. Get this from http://www.twitchapps.com/tmi/.
-    password: '',
+    // What is the above account's OAuth token?
+    // Get this from http://www.twitchapps.com/tmi/.
+    oauth: '',
 
     // Who owns the devices being controlled?
-    //   This person gets exclusive access to the `force` command.
+    // This person gets exclusive access to the `force` command.
     owner: 'your-username-here',
 
     // How many seconds should I wait between sending messages?
-    //   The sweet spot depends on the server, but for Twitch this should be nonzero to avoid getting dropped messages.
+    // To avoid getting messages dropped, this usually has to be nonzero.
     spamDelay: 2,
 
     // Should I tell node-irc to display errors and debug messages?
-    //   Turning this on can be helpful if you're not able to connect to IRC and you don't know why.
+    // Turning this on can be helpful if I'm not showing up in chat and you don't know why.
     debug: false
+
+    // What IRC server should I connect to?
+    // You usually won't need to change this.
+    server: 'irc.twitch.tv',
   };
 };
