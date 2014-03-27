@@ -1,5 +1,4 @@
-var ls = new (require('node-localstorage').LocalStorage)('./db');
-var db = require('json-storage').JsonStorage.create(ls, false);
+var db = require('json-storage').JsonStorage.create(new (require('node-localstorage').LocalStorage)('./db'), false);
 var fs = require('fs');
 var irc = require('irc');
 var ozw = require('openzwave');
