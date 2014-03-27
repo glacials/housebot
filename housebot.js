@@ -1,5 +1,5 @@
 var ls = new (require('node-localstorage').LocalStorage)('./db');
-var db = require('json-storage').JsonStorage.create(ls, 'housebot');
+var db = require('json-storage').JsonStorage.create(ls, false);
 var fs = require('fs');
 var irc = require('irc');
 var ozw = require('openzwave');
@@ -19,7 +19,7 @@ var bot = new irc.Client(config.server, config.username, {
   userName: config.username,
   realName: config.username,
   password: config.password,
-  channels: config.channels.concat((db.get('channels') || []).map(function(channel) { return channel.name; })),
+  channels: config.channels.concat(db.get('channels') || []),
   floodProtection: config.spamDelay !== 0,
   floodProtectionDelay: config.spamDelay,
   showErrors: config.debug,
