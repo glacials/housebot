@@ -3,9 +3,11 @@
   "description": "A Z-Wave helper and IRC bot",
   "author": "Ben Carlsson <qhiiyr@gmail.com>",
   "dependencies": {
-    "openzwave": "0.0.32",
-    "irc": "0.3.6",
-    "express": "3.x"
+    "openzwave": "0.0.x",
+    "irc": "0.3.x",
+    "express": "3.x",
+    "node-localstorage": "0.3.x",
+    "json-storage": "2.1.x"
   },
   "repository": {
     "type": "git",

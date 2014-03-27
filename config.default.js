@@ -20,8 +20,9 @@ module.exports = function() {
     //   For Twitch, this should be the above account's OAuth token. Get this from http://www.twitchapps.com/tmi/.
     password: '',
 
-    // What channels should I monitor?
+    // What channels should I start in?
     //   Make sure to put commas after each one (except the last). Include the hash ('#').
+    //   This list of channels is merged with the list of channels we have entered via `!mitosis`. These are the seeds.
     channels: [
       '#channel-name-here',
       '#another-channel-name-here',

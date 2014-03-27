@@ -3,3 +3,4 @@ node_modules
 config.js
 quotes.txt
 submitted-quotes.txt
+db
