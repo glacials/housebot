@@ -1,3 +1,5 @@
+var lights_owner = 'glacials'; // Getting removed soon
+
 var args = {
   'lights on': function(bot, channel, devices) {
     bot.say(channel, 'Forcing lights on.');
@@ -12,10 +14,9 @@ var args = {
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    command: 'force',
     valid: argv[0] === 'force',
     run: function() {
-      if (!options.user.is_owner) {
+      if (!options.user.name !== lights_owner) {
         options.bot.say(options.channel, 'Only the device owner can force actions!');
         return;
       }

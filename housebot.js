@@ -29,22 +29,19 @@ bot.addListener('message#', function(user, channel, text, message) {
   text = text.trim();
   if (text[0] === '!') {
     text = text.slice(1);
-    if (text.split(' ')[0] === '!lights') { // Allow `!lights` as an alias of `!vote lights`
-      text = '!vote '+text.substring(1, text.length);
+    // Allow `!<config.username>` as an alias of `!help`
+    if (text.split(' ')[0] === config.username) {
+      text.replace(config.username, 'help');
     }
-    if (text.split(' ')[0] === config.username || text.split(' ')[0] === 'help' || text.split(' ')[0] === 'commands') {
-      bot.say(channel, 'Commands: !vote, !quote, !addquote, !lights, !sms');
-    } else {
-      command(text.split(' ')).attempt({
-        bot:     bot,
-        channel: channel,
-        devices: devices,
-        user: {
-          name:     user,
-          is_owner: user === channel.slice(1)
-        }
-      });
-    }
+    command(text.split(' ')).attempt({
+      bot:     bot,
+      channel: channel,
+      devices: devices,
+      user: {
+        name:     user,
+        is_owner: user === channel.slice(1)
+      }
+    });
   }
 });
 

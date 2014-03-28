@@ -1,6 +1,7 @@
 var votesRequired = 8;
 var strobeCount = 8;
 var numFlips = 0;
+var lights_owner = 'glacials'; // Getting removed soon
 
 var polls = {
   lights: {
@@ -36,19 +37,21 @@ var triggers = {
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    command: 'vote',
     valid: (argv.length === 1 && argv[0] === 'vote') ||
            (argv.length === 2 && argv[0] === 'vote' && argv[1] in polls) ||
            (argv.length === 3 && argv[0] === 'vote' && argv[1] in polls && argv[2] in polls[argv[1]]) ||
            (argv.length === 1 && argv[0] in polls) ||
            (argv.length === 2 && argv[0] in polls && argv[1] in polls[argv[0]]),
     run: function() {
+      if (options.channel !== lights_owner && options.user.name !== 'housebot') {
+        return;
+      }
       if (!options.devices[3]) {
         options.bot.say(options.channel, "I'm not hooked up to any lights right now!");
         return;
       }
       if (argv[0] !== 'vote') {
-        argv.unshift('vote');
+        argv = ['vote'].concat(argv);
       }
       if (argv.length === 1) {
         options.bot.say(options.channel, 'open polls → '+Object.keys(polls).join(' '));
