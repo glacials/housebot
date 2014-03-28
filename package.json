@@ -1,18 +1,18 @@
 {
-  'name': 'housebot',
-  'description': 'A Z-Wave helper and IRC bot',
-  'author': 'Ben Carlsson <qhiiyr@gmail.com>',
-  'dependencies': {
-    'openzwave': '0.0.x',
-    'irc': '0.3.x',
-    'express': '3.x',
-    'stylus': '0.42.x',
-    'node-localstorage': '0.3.x',
-    'json-storage': '2.1.x'
+  "name": "housebot",
+  "description": "A Z-Wave helper and IRC bot",
+  "author": "Ben Carlsson <qhiiyr@gmail.com>",
+  "dependencies": {
+    "openzwave": "0.0.x",
+    "irc": "0.3.x",
+    "express": "3.x",
+    "stylus": "0.42.x",
+    "node-localstorage": "0.3.x",
+    "json-storage": "2.1.x"
   },
-  'repository': {
-    'type': 'git',
-    'url': 'http://github.com/glacials/housebot'
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/glacials/housebot"
   },
-  'engine': 'node 0.4.1'
+  "engine": "node 0.4.1"
 }
