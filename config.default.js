@@ -15,10 +15,6 @@ module.exports = function() {
     // Get this from http://www.twitchapps.com/tmi/.
     oauth: '',
 
-    // Who owns the devices being controlled?
-    // This person gets exclusive access to the `force` command.
-    owner: 'your-username-here',
-
     // How many seconds should I wait between sending messages?
     // To avoid getting messages dropped, this usually has to be nonzero.
     spamDelay: 2,

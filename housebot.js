@@ -41,7 +41,7 @@ bot.addListener('message#', function(user, channel, text, message) {
         devices: devices,
         user: {
           name:     user,
-          is_owner: user === config.owner
+          is_owner: user === channel.slice(1)
         }
       });
     }
@@ -116,13 +116,14 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('data', function (text) {
   command(text.trim().split(' ')).attempt({
     bot: {
+      join: bot.join,
       say: function(channel, text) { console.log(text); }
     },
     user: {
-      name: null,
+      name: config.username,
       is_owner: true
     },
-    channel: config.username,
+    channel: '#'+config.username,
     devices: devices,
     verbose: true
   });
