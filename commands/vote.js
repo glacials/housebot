@@ -1,3 +1,5 @@
+request = require('node-request-caching');
+
 var votesRequired = 8;
 var strobeCount = 8;
 var numFlips = 0;
@@ -9,6 +11,15 @@ var polls = {
     off: 0,
     strobe: 0
   }
+};
+
+var check_stream = function (user, options) {
+  options = options || {};
+  request.get('https://api.twitch.tv/kraken/streams/djwheat', {}, 600, function (error, response, body) {
+    if (JSON.parse(body).stream !== null) {
+      options.online();
+    }
+  });
 };
 
 var triggers = {
@@ -64,10 +75,14 @@ module.exports = function(argv, options) {
       } else if (argv.length === 3) {
         polls[argv[1]][argv[2]]++;
         if (polls[argv[1]][argv[2]] >= votesRequired) {
-          triggers[argv[1]][argv[2]](options.bot, options.channel, options.devices);
-          Object.keys(polls[argv[1]]).forEach(function(candidate, numVotes, options) {
-            polls[argv[1]][candidate] = 0;
-          });
+          check_stream(options.user.name, { online: function() {
+            if (JSON.parse(body).stream !== null) {
+              triggers[argv[1]][argv[2]](options.bot, options.channel, options.devices);
+              Object.keys(polls[argv[1]]).forEach(function(candidate, numVotes, options) {
+                polls[argv[1]][candidate] = 0;
+              });
+            }
+          }});
         } else {
           options.bot.say(options.channel, argv[1]+' '+argv[2]+' → now '+polls[argv[1]][argv[2]]+' (need '+(votesRequired - polls[argv[1]][argv[2]])+' more)');
         }
