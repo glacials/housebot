@@ -5,7 +5,7 @@ module.exports = function() {
     //   On OS X with an Aeon Z-Stick 2 using [silabs drivers][1], this is '/dev/cu.SLAB_USBtoUART'.
     //   (Please fill in more examples here if you have them.)
     //   [1]: http://www.silabs.com/products/mcu/pages/usbtouartbridgevcpdrivers.aspx
-    zwaveHubPath: '/dev/cu.SLAB_USBtoUART',
+    zwave_hub: '/dev/cu.SLAB_USBtoUART',
 
     // What Twitch user am I signing in as?
     // You will need to own this account so you can produce an OAuth token (see below).
