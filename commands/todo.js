@@ -6,10 +6,10 @@ module.exports = function(argv, options) {
     run: function() {
       if (argv.length > 1) {
         var task = argv.slice(1).join(' ');
-        db.set('todo-'+options.channel, (db.get('todo-'+options.channel) || []).concat(task));
+        db.set('todo-'+options.channel.slice(1), (db.get('todo-'+options.channel.slice(1)) || []).concat(task));
         options.bot.say(options.channel, 'Added todo item!');
       } else if (argv.length === 1) {
-        var tasks = db.get('todo-'+options.channel) || [];
+        var tasks = db.get('todo-'+options.channel.slice(1)) || [];
         if (tasks.length <= 8) {
           options.bot.say(options.channel, tasks.join(', '));
         } else {

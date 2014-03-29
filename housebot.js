@@ -32,8 +32,8 @@ bot.addListener('message#', function(user, channel, text, message) {
     command(text.split(' ')).attempt({
       bot: {
         name: config.username,
-        say:  bot.say,
-        join: bot.join
+        say:  function(channel, text) { bot.say(channel, text); },
+        join: function(channel) { bot.join(channel); }
       },
       channel: channel,
       devices: devices,
