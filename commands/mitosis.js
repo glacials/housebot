@@ -3,13 +3,19 @@ var db = require('json-storage').JsonStorage.create(new (require('node-localstor
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    command: 'mitosis',
-    valid: argv[0] === 'mitosis' && argv.length === 1,
+    valid: argv[0].match(/mitosis|fork|split/) && argv.length === 1,
     run: function() {
-      options.bot.join('#'+options.user.name, function() {
-        db.set('channels', (db.get('channels') || []).concat('#'+options.user.name));
-        options.bot.say(options.channel, 'Copied myself into '+options.user.name+'\'s channel.');
-      });
+      channels = db.get('channels') || [];
+      if (options.user.name === options.bot.name) {
+        options.bot.say(options.channel, 'Copy myself into my own channel? I refuse! Who am I -- Mr. Meeseeks?');
+      } else if (channels.indexOf('#'+options.user.name) !== -1) {
+        options.bot.say(options.channel, options.user.name+'\'s channel is already covered by one of my copies!');
+      } else {
+        options.bot.join('#'+options.user.name, function() {
+          db.set('channels', channels.concat('#'+options.user.name));
+          options.bot.say(options.channel, 'Copied myself into '+options.user.name+'\'s channel.');
+        });
+      }
     }
   };
 };

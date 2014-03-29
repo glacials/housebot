@@ -8,15 +8,16 @@ fs.readdirSync('./commands').forEach(function(file) {
 
 module.exports = function(argv) {
   return {
-    argv: argv,
     /* options can contain:
      *   devices (array): A list of devices the command may (or may not) need to control.
-     *   isOwner (boolean): True if `user` owns the hardware in `devices`; false otherwise.
+     *   is_owner (boolean): True if `user` owns the hardware in `devices`; false otherwise.
      *   user (string): The user from whom this command came.
      *   verbose (boolean): If true, complain if we can't process the command
      */
     attempt: function(options) {
       options = options || {};
+      // Allow `!<config.username>` as an alias of `!help`
+      if (argv[0] === options.bot.name) argv[0] = 'help';
       var success = false;
       commands.forEach(function(command) {
         if (command(argv).valid) {

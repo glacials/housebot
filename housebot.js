@@ -29,12 +29,12 @@ bot.addListener('message#', function(user, channel, text, message) {
   text = text.trim();
   if (text[0] === '!') {
     text = text.slice(1);
-    // Allow `!<config.username>` as an alias of `!help`
-    if (text.split(' ')[0] === config.username) {
-      text.replace(config.username, 'help');
-    }
     command(text.split(' ')).attempt({
-      bot:     bot,
+      bot: {
+        name: config.username,
+        say:  bot.say,
+        join: bot.join
+      },
       channel: channel,
       devices: devices,
       user: {
@@ -113,8 +113,9 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('data', function (text) {
   command(text.trim().split(' ')).attempt({
     bot: {
+      name: config.username,
+      say: function(channel, text) { console.log(text); },
       join: bot.join,
-      say: function(channel, text) { console.log(text); }
     },
     user: {
       name: config.username,
