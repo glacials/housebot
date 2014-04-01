@@ -12,7 +12,7 @@ if (!fs.existsSync('config.js')) {
 var config = require('./config.js')();
 var command = require('./command.js');
 
-var zwave = new ozw('/dev/cu.SLAB_USBtoUART');
+var zwave = new ozw(config.zwave_hub);
 
 var bot = new irc.Client(config.server, config.username, {
   userName: config.username,
@@ -30,11 +30,7 @@ bot.addListener('message#', function(user, channel, text, message) {
   if (text[0] === '!') {
     text = text.slice(1);
     command(text.split(' ')).attempt({
-      bot: {
-        name: config.username,
-        say:  function(channel, text) { bot.say(channel, text); },
-        join: function(channel) { bot.join(channel); }
-      },
+      bot: bot,
       channel: channel,
       devices: devices,
       user: {

@@ -20,7 +20,7 @@ module.exports = function(argv) {
       if (argv[0] === options.bot.name) argv[0] = 'help';
       var success = false;
       commands.forEach(function(command) {
-        if (command(argv).valid) {
+        if (command(argv, options).valid) {
           command(argv, options).run();
           success = true;
         }
