@@ -3,7 +3,7 @@ var db = require('json-storage').JsonStorage.create(new (require('node-localstor
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    valid: argv[0].match(/mitosis|fork|split/) && argv.length === 1,
+    valid: /^(mitosis|fork|split)$/.test(argv.join(' ')),
     run: function() {
       channels = db.get('channels') || [];
       if (options.user.name === options.bot.name) {

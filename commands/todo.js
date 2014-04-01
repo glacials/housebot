@@ -2,7 +2,7 @@ var db = require('json-storage').JsonStorage.create(new (require('node-localstor
 
 module.exports = function(argv, options) {
   return {
-    valid: argv[0] === 'todo',
+    valid: /^todo( .+)?$/.test(argv.join(' ')),
     run: function() {
       if (argv.length > 1) {
         var task = argv.slice(1).join(' ');

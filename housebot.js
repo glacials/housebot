@@ -30,7 +30,11 @@ bot.addListener('message#', function(user, channel, text, message) {
   if (text[0] === '!') {
     text = text.slice(1);
     command(text.split(' ')).attempt({
-      bot: bot,
+      bot: {
+        say:  bot.say,
+        join: bot.join,
+        name: config.username
+      },
       channel: channel,
       devices: devices,
       user: {

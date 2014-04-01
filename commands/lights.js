@@ -40,7 +40,7 @@ var triggers = {
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    valid: argv.join(' ').match(/lights( (on|off|strobe))?/) && options.channel.slice(1) === lights_owner,
+    valid: /^lights( (on|off|strobe))?$/.test(argv.join(' ')) && options.channel.slice(1) === lights_owner,
     run: function() {
       if (!options.devices[3]) {
         options.bot.say(options.channel, 'I\'m not hooked up to any lights right now!');

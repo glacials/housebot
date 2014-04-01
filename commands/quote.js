@@ -2,7 +2,7 @@ var db = require('json-storage').JsonStorage.create(new (require('node-localstor
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    valid: argv[0].match(/(approve(quote)?|reject(quote)?|review(quote)?|addquote|quote)/),
+    valid: /^(approve(quote)?)|(reject(quote)?)|(review(quote)?)|(addquote .+)|(quote)$/.test(argv.join(' ')),
     run: function() {
       if (argv[0].match(/(approve|reject|review)(quotes?)?/) && (db.get('quotespending-'+options.channel.slice(1)) || []).length === 0) {
         options.bot.say(options.channel, 'No quotes to review :)');

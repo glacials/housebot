@@ -14,7 +14,7 @@ var args = {
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    valid: argv[0] === 'force',
+    valid: /^force lights (on|off)$/.test(argv.join(' ')),
     run: function() {
       if (options.user.name !== lights_owner && options.user.name !== 'housebot') {
         options.bot.say(options.channel, 'Only the device owner can force actions!');

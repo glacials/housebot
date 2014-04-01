@@ -3,7 +3,7 @@ var db = require('json-storage').JsonStorage.create(new (require('node-localstor
 module.exports = function(argv, options) {
   options = options || {};
   return {
-    valid: argv[0].match(/seppuku|suicide|selfdestruct|shutdown|powerdown|poweroff|leave|depart|exit|quit/) && argv.length === 1,
+    valid: /^(seppuku|suicide|selfdestruct|sd|shutdown|powerdown|poweroff|leave|depart|part|exit|quit)$/.test(argv.join(' ')),
     run: function() {
       channels = db.get('channels') || [];
       if (options.channel.slice(1) === options.bot.name) {
