@@ -3,7 +3,7 @@ controlling Z-Wave devices yet.*
 
 # housebot
 
-Housebot is an Twitch chat bot that controls Z-Wave devices, like outlets or lights, with a voting system. For now he
+Housebot is a Twitch chat bot that controls Z-Wave devices, like outlets or lights, with a voting system. For now he
 only controls binary switch devices, not multi-level devices like faders. To use his home automation abilities you will
 need a Z-Wave hub-like device hooked up to whatever machine you run him on. I use the Aeon Z-Stick Series 2.
 
@@ -16,7 +16,7 @@ Housebot commands all start with a bang (`!`). They are:
 
 * `!housebot`: Show commands.
 * `!quote`: Display a random quote.
-* `!addquote <quote>`: Add a quote to be reviewe.
+* `!addquote <quote>`: Add a quote to be reviewed.
 * `!todo`: Display a todo list.
 * `!todo <item>`: Add an item to the todo list.
 * `!mitosis`: Make Housebot join your channel.
