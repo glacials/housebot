@@ -1,6 +1,5 @@
-*Note: Housebot is currently set up very messily and functions very specifically to my network of devices, as I just
-kind of threw him together. Now that he works, my first priority is to fix this. Until I do, he'll take some coercing
-before he cooperates with any other network.*
+*Note: Housebot is currently being rewritten in CoffeeScript. He should be fully functional, but he has no support for
+controlling Z-Wave devices yet.*
 
 # housebot
 
@@ -15,10 +14,13 @@ want with me" license. <3
 
 Housebot commands all start with a bang (`!`). They are:
 
- * `!housebot`: Say a helpful message about other commands. This command changes to reflect Housebot's username.
- * `!vote`: See a list of open polls.
- * `!vote <poll>`: See a list of candidates for `<poll>`.
- * `!vote <poll> <candidate>`: Vote for `<candidate>` in `<poll>`. Housebot will confirm the vote with a response.
+* `!housebot`: Show commands.
+* `!quote`: Display a random quote.
+* `!addquote <quote>`: Add a quote to be reviewe.
+* `!todo`: Display a todo list.
+* `!todo <item>`: Add an item to the todo list.
+* `!mitosis`: Make Housebot join your channel.
+* `!seppuku`: Make Housebot leave your channel.
 
 ## Running locally
 
@@ -29,15 +31,6 @@ You will need Node.js. Your package manager probably has it listed under `node` 
     npm install
 
 should take care of the rest.
-
-### First run
-
-    cp config{.default,}.js
-    $EDITOR config.js  # Fill out this file
-    node housebot.js
-
-Currently you may have to do some manual work configuring this to work with your Z-Wave network -- I'm still improving
-on generalizing this part so that this isn't necessary.
 
 [1]: http://nodejs.org/
 [2]: https://github.com/jperkin/node-openzwave
