@@ -59,22 +59,22 @@ else
   chat.on /^!review$/, (channel, user) ->
     if channel == user
       if quotes.to_review_exist_in channel
-        chat.say_in(channel, 'Review! Use !approve/!reject: '+quotes.first_from channel)
+        chat.say_in(channel, 'Review! Use !approve/!reject: '+quotes.first_pending_in channel)
       else
         chat.say_in channel, 'No quotes to review!'
 
   chat.on /^!approve$/, (channel, user) ->
     if channel == user
       quotes.approve_one_from channel
-      if quotes.num_pending_in channel > 1
-        chat.say_in channel, 'Approved! Next: '+quotes.first_from channel
+      if quotes.num_pending_in channel > 0
+        chat.say_in channel, 'Approved! Next: '+quotes.first_pending_in channel
       else
         chat.say_in channel, 'Approved! No more left!'
 
   chat.on /^!reject$/, (channel, user) ->
     if channel == user
       quotes.reject_one_from channel
-      if quotes.num_pending_in channel > 1
-        chat.say_in channel, 'Rejected! Next: '+quotes.first_from channel
+      if quotes.num_pending_in channel > 0
+        chat.say_in channel, 'Rejected! Next: '+quotes.first_pending_in channel
       else
         chat.say_in channel, 'Rejected! No more left!'
