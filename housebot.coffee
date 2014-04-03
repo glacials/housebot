@@ -27,7 +27,7 @@ else
     chat.join user
     chat.say_in channel, 'Splitting into '+user+' :D'
 
-  chat.on /^!seppuku$/, (channel, user, match) ->
+  chat.on /^!(seppuku|sudoku)$/, (channel, user, match) ->
     chat.leave user
 
   chat.on /^!sms$/, (channel, user, match) ->
