@@ -14,7 +14,7 @@ else
 
   chat.on /^!(housebot|help|commands)$/, (channel, user) ->
     if channel == user
-      chat.say_in channel, 'Owner commands: !review'
+      chat.say_in channel, 'Owner commands: !review, !cleartodo'
     chat.say_in channel, 'Commands: !quote, !addquote, !todo. !mitosis to join your channel, !seppuku to leave it.'
 
   chat.on /^!quote$/, (channel) ->
@@ -47,9 +47,14 @@ else
   chat.on /^!todo$/, (channel) ->
     chat.say_in channel, todo.list_for channel
 
-  chat.on /^!todo (.*)$/, (channel, user, match) ->
+  chat.on /^!todo (.+)$/, (channel, user, match) ->
     todo.add_to channel, match[1]
     chat.say_in channel, 'Todo list updated!'
+
+  chat.on /^!cleartodo$/, (channel, user) ->
+    if channel == user
+      todo.clear()
+      chat.say_in channel, 'Todo list cleared!'
 
   chat.on /^!review$/, (channel, user) ->
     if channel == user

@@ -8,3 +8,6 @@ module.exports =
 
   list_for: (channel) ->
     (db.get('todo'+channel) or ['No items to do!']).join ', '
+
+  clear: ->
+    db.set 'todo'+channel, []
