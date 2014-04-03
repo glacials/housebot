@@ -1,9 +1,28 @@
 _  = require 'underscore'
 db = require './db'
 
-module.exports.submit_for = (channel, quote) ->
-  db.union_with 'pending_quotes'+channel, quote
+module.exports =
 
-module.exports.random_from = (channel) ->
-  quotes = db.get('quotes'+channel) or ['No quotes yet!']
-  quotes[_.random 0, quotes.length - 1]
+  submit_for: (channel, quote) ->
+    db.union_with 'pending_quotes'+channel, quote
+
+  random_from: (channel) ->
+    quotes = db.get('quotes'+channel) or ['No quotes yet!']
+    _.sample quotes
+
+  num_pending_in: (channel) ->
+    (db.get('pending_quotes'+channel) or []).length
+
+  to_review_exist_in: (channel) ->
+    (db.get('pending_quotes'+channel) or []).length > 0
+
+  first_from: (channel) ->
+    db.get('pending_quotes'+channel)[0]
+
+  approve_one_from: (channel) ->
+    quote = this.first_from channel
+    db.remove_from 'pending_quotes'+channel, quote
+    db.union_with 'quotes'+channel, quote
+
+  reject_one_from: (channel) ->
+    db.remove_from 'pending_quotes'+channel, this.first_from channel
