@@ -26,8 +26,8 @@ Quotes added using `!addquote` need to be reviewed by the channel owner before t
 review quotes, channel owners have the following three extra commands:
 
 * `!review`: Show the oldest quote in the submission queue.
-* `!approve`: Move the oldest quote from the submission queue to the quotes list.
-* `!reject`: Remove the oldest quote from the submission queue, destroying it.
+* `!approve`: Move the oldest quote in the submission queue to the quotes list.
+* `!reject`: Destroy the oldest quote in the submission queue.
 
 ## Running locally
 
