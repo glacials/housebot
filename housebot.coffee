@@ -1,3 +1,4 @@
+_      = require 'underscore'
 argv   = require './inc/argv'
 wizard = require './inc/wizard'
 
@@ -43,6 +44,14 @@ else
 
   chat.on /^!sms$/, (channel) ->
     chat.say_in channel, 'http://bombch.us/Ut'
+
+  chat.on /^!addcommand ([^ ]+) (.+)$/, (channel, user, match) ->
+    if channel == user
+      commands.add_for channel, match[1], match[2]
+
+  chat.on /^!removecommand ([^ ]+)$/, (channel, user, match) ->
+    if channel == user
+      commands.remove_from channel, match[1]
 
   chat.on /^!todo$/, (channel) ->
     chat.say_in channel, todo.list_for channel
@@ -92,3 +101,4 @@ else
       else
         chat.say_in channel, 'Edited and added! No more left!'
 
+  #db.get('channels').forEach chat.sync_commands_for

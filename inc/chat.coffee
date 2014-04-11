@@ -6,7 +6,6 @@ my  = require './my'
 module.exports =
 
   connect_to: (chat_server) ->
-    process.setMaxListeners 0
     this.client = new irc.Client chat_server, my.username, {
         userName:   my.username,
         realName:   my.username,
@@ -15,6 +14,7 @@ module.exports =
         debug:      true,
         showErrors: true
       }
+    this.client.setMaxListeners 0
 
   disconnect: ->
     this.client.disconnect
@@ -34,8 +34,17 @@ module.exports =
     _.contains(_.union(my.channel, db.get 'channels'), channel)
 
 # callback should take args (channel, user, match)
-  on: (regex, callback) ->
+  on: (regex, callback, channel) ->
     callback_wrapper = (user, channel, text) ->
       if regex.test text
         callback channel.slice(1), user, text.match regex
-    this.client.addListener 'message#', callback_wrapper
+    if channel == null
+      this.client.addListener 'message#', callback_wrapper
+    else
+      this.client.addListener 'message#'+channel, callback_wrapper
+
+  sync_commands_for: (channel) ->
+    this.client.removeAllListeners 'message#'+channel
+    _.each(db.get 'commands'+channel, (command) ->
+      this.client.addListener('message#'+channel, command.regex, chat.say_in(channel, command.response))
+    )

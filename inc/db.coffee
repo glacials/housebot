@@ -17,3 +17,6 @@ module.exports =
 
   remove_from: (key, value) ->
     db.set(key, _.without(this.get(key) or [], value))
+
+  remove_from_where: (key, where) ->
+    db.set(key, _.without(this.get(key) or [], _.where(this.get(key) or [], where)))
