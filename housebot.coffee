@@ -12,6 +12,7 @@ else
   todo   = require './inc/todo'
 
   chat.connect_to 'irc.twitch.tv'
+  my.channels.forEach((channel) -> chat.sync_commands_for channel)
 
   chat.on /^!(housebot|help|commands)$/, (channel, user) ->
     if channel == user
@@ -24,6 +25,13 @@ else
   chat.on /^!addquote (.+)$/, (channel, user, match) ->
     quotes.submit_for channel, match[1]
     chat.say_in channel, 'Your quote has been added for review!'
+
+  chat.on /^!todo$/, (channel) ->
+    chat.say_in channel, todo.list_for channel
+
+  chat.on /^!todo (.+)$/, (channel, user, match) ->
+    todo.add_to channel, match[1]
+    chat.say_in channel, 'Todo list updated!'
 
   chat.on /^!mitosis$/, (channel, user, match) ->
     if chat.in user
@@ -42,9 +50,6 @@ else
       else
         chat.say_in channel, user+', I am not in your channel yet! :)'
 
-  chat.on /^!sms$/, (channel) ->
-    chat.say_in channel, 'http://bombch.us/Ut'
-
   chat.on /^!addcommand ([^ ]+) (.+)$/, (channel, user, match) ->
     if channel == user
       commands.add_for channel, match[1], match[2]
@@ -52,13 +57,6 @@ else
   chat.on /^!removecommand ([^ ]+)$/, (channel, user, match) ->
     if channel == user
       commands.remove_from channel, match[1]
-
-  chat.on /^!todo$/, (channel) ->
-    chat.say_in channel, todo.list_for channel
-
-  chat.on /^!todo (.+)$/, (channel, user, match) ->
-    todo.add_to channel, match[1]
-    chat.say_in channel, 'Todo list updated!'
 
   chat.on /^!cleartodo$/, (channel, user) ->
     if channel == user
@@ -100,5 +98,3 @@ else
         chat.say_in channel, 'Edited and added! Next: '+quotes.first_pending_in channel
       else
         chat.say_in channel, 'Edited and added! No more left!'
-
-  #db.get('channels').forEach chat.sync_commands_for

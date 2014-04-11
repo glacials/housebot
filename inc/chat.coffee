@@ -6,14 +6,13 @@ my  = require './my'
 module.exports =
 
   connect_to: (chat_server) ->
-    this.client = new irc.Client chat_server, my.username, {
-        userName:   my.username,
-        realName:   my.username,
-        password:   my.oauth_token,
-        channels:   _.union(my.channel, db.get 'channels').map((channel) -> '#'+channel)
-        debug:      true,
-        showErrors: true
-      }
+    this.client = new irc.Client chat_server, my.username,
+      userName:   my.username,
+      realName:   my.username,
+      password:   my.oauth_token,
+      channels:   my.channels.map (channel) -> '#'+channel
+      debug:      true,
+      showErrors: true
     this.client.setMaxListeners 0
 
   disconnect: ->
