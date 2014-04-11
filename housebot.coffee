@@ -20,7 +20,7 @@ else
   chat.on /^!quote$/, (channel) ->
     chat.say_in channel, quotes.random_from channel
 
-  chat.on /^!addquote (.*)$/, (channel, user, match) ->
+  chat.on /^!addquote (.+)$/, (channel, user, match) ->
     quotes.submit_for channel, match[1]
     chat.say_in channel, 'Your quote has been added for review!'
 
@@ -59,7 +59,7 @@ else
   chat.on /^!review$/, (channel, user) ->
     if channel == user
       if quotes.to_review_exist_in channel
-        chat.say_in(channel, 'Review! Use !approve/!reject: '+quotes.first_pending_in channel)
+        chat.say_in(channel, 'Review! Use !approve/!reject/!edit: '+quotes.first_pending_in channel)
       else
         chat.say_in channel, 'No quotes to review!'
 
@@ -78,3 +78,17 @@ else
         chat.say_in channel, 'Rejected! Next: '+quotes.first_pending_in channel
       else
         chat.say_in channel, 'Rejected! No more left!'
+
+  chat.on /^!edit$/, (channel, user) ->
+    if channel == user
+      chat.say_in channel, '!edit replaces the quote under review with one that you specify. Use it similarly to !addquote.'
+
+  chat.on /^!edit (.+)$/, (channel, user, match) ->
+    if channel == user
+      quotes.reject_one_from channel
+      quotes.add_for channel, match[1]
+      if quotes.num_pending_in channel > 0
+        chat.say_in channel, 'Edited and added! Next: '+quotes.first_pending_in channel
+      else
+        chat.say_in channel, 'Edited and added! No more left!'
+

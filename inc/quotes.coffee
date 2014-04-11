@@ -6,6 +6,9 @@ module.exports =
   submit_for: (channel, quote) ->
     db.union_with 'pending_quotes'+channel, quote
 
+  add_for: (channel, quote) ->
+    db.union_with 'quotes'+channel, quote
+
   random_from: (channel) ->
     quotes = db.get('quotes'+channel) or ['No quotes yet!']
     _.sample quotes
