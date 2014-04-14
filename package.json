@@ -5,7 +5,6 @@
   "engine":      "node 0.4.1",
 
   "dependencies": {
-    "openzwave":            "0.0.x",
     "irc":                  "0.3.x",
     "node-localstorage":    "0.3.x",
     "json-storage":         "2.1.x",
