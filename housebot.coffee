@@ -87,7 +87,7 @@ else
     if channel == user
       quotes.reject_one_from channel
       quotes.add_for channel, match[1]
-      if quotes.num_pending_in channel > 0
+      if quotes.to_review_exist_in channel
         chat.say_in channel, 'Edited and added! Next: '+quotes.first_pending_in channel
       else
         chat.say_in channel, 'Edited and added! No more left!'
