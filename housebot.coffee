@@ -53,7 +53,7 @@ else
 
   chat.on /^!cleartodo$/, (channel, user) ->
     if channel == user
-      todo.clear()
+      todo.clear channel
       chat.say_in channel, 'Todo list cleared!'
 
   chat.on /^!review$/, (channel, user) ->
