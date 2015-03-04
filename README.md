@@ -1,5 +1,4 @@
-*Note: Housebot is currently being rewritten in CoffeeScript. He should be fully functional, but he has no support for
-controlling Z-Wave devices yet.*
+*Note: I no longer actively develop Housebot. Last time I touched him, I was in the middle of a rewrite from JavaScript to CoffeeScript, and the rewrite didn't yet include the star feature -- the home automation part. So you can either use the code in `master`, which is freshly rewritten but just a generic bot, or the code from around `37b1e88`, which is a bit old and a bit messy but which can actually do the "control your lights" thing.*
 
 # housebot
 
