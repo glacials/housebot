@@ -1,6 +1,6 @@
 {
   "name":        "housebot",
-  "description": "A Z-Wave helper and IRC bot",
+  "description": "A Twitch chat bot that controls your lights",
   "author":      "Ben Carlsson <qhiiyr@gmail.com>",
   "engine":      "node 0.4.1",
 
@@ -9,7 +9,9 @@
     "node-localstorage":    "0.3.x",
     "json-storage":         "2.1.x",
     "coffee-script":        "1.7.x",
-    "underscore":           "1.6.x"
+    "underscore":           "1.6.x",
+    "node-hue-api":         "2.2.x",
+    "yesno":                "0.0.x"
   },
 
   "repository": {

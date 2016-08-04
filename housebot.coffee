@@ -6,6 +6,7 @@ if wizard.is_necessary or argv.has /--setup/
 else
   chat   = require './inc/chat'
   db     = require './inc/db'
+  lights = require './inc/lights'
   my     = require './inc/my'
   quotes = require './inc/quotes'
   todo   = require './inc/todo'
@@ -15,7 +16,7 @@ else
   chat.on /^!(housebot|help|commands)$/, (channel, user) ->
     if channel == user
       chat.say_in channel, 'Owner commands: !review, !cleartodo'
-    chat.say_in channel, 'Commands: !quote, !addquote, !todo. !mitosis to join your channel, !seppuku to leave it.'
+    chat.say_in channel, 'Commands: !quote, !addquote, !lights, !todo. !mitosis to join your channel, !seppuku to leave it.'
 
   chat.on /^!quote$/, (channel) ->
     chat.say_in channel, quotes.random_from channel
@@ -23,6 +24,17 @@ else
   chat.on /^!addquote (.+)$/, (channel, user, match) ->
     quotes.submit_for channel, match[1]
     chat.say_in channel, 'Your quote has been added for review!'
+
+  chat.on /^!lights( (on|off|flicker))?$/, (channel, user, match) ->
+    if channel == 'glacials'
+      if match[1] == 'on'
+        chat.say_in channel, lights.vote_on(user)
+      else if match[1] == 'off'
+        chat.say_in channel, lights.vote_off(user)
+      else if match[1] == 'flicker'
+        chat.say_in channel, lights.vote_flicker(user)
+      else
+        chat.say_in channel, 'Usage: !lights on|off|flicker'
 
   chat.on /^!mitosis$/, (channel, user, match) ->
     if chat.in user
